@@ -47,6 +47,16 @@
         <Setter Property="ThumbColor" Value="{StaticResource Primary}" />
     </Style>
 
+    <!-- Mood Selection Buttons (Daylio style) -->
+    <Style x:Key="MoodButton" TargetType="Button">
+        <Setter Property="WidthRequest" Value="52"/>
+        <Setter Property="HeightRequest" Value="52"/>
+        <Setter Property="CornerRadius" Value="26"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderWidth" Value="3"/>
+    </Style>
+
     <!-- Entry/Editor Style -->
     <Style x:Key="LabeledEntry" TargetType="Entry">
         <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTracker.ViewModels"
+             x:Class="MoodTracker.Views.OnboardingPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource Gray900}}">
+
+    <ContentPage.BindingContext>
+        <vm:OnboardingViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*,Auto">
+        <!-- Page Content -->
+        <CarouselView Grid.Row="0" 
+                      ItemsSource="{Binding Pages}" 
+                      Position="{Binding CurrentPosition}"
+                      Loop="False">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="20">
+                        <!-- Illustration -->
+                        <Frame BackgroundColor="White" 
+                               WidthRequest="200" 
+                               HeightRequest="200" 
+                               CornerRadius="100"
+                               Margin="0,0,0,20"
+                               HasShadow="True">
+                            <Label Text="{Binding Illustration}" 
+                                   FontSize="100" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+
+                        <!-- Title -->
+                        <Label Text="{Binding Title}"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+
+                        <!-- Description -->
+                        <Label Text="{Binding Description}"
+                               FontSize="16"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               LineHeight="1.5"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!-- Bottom Controls -->
+        <VerticalStackLayout Grid.Row="1" Padding="30" Spacing="20">
+            <!-- Page Indicators -->
+            <IndicatorView ItemsSource="{Binding Pages}"
+                           IndicatorColor="{StaticResource Gray400}"
+                           SelectedIndicatorColor="{StaticResource Primary}"
+                           IndicatorSize="8"
+                           HorizontalOptions="Center"/>
+
+            <!-- Action Button -->
+            <Button Text="{Binding ActionButtonText}"
+                    Command="{Binding ContinueCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    CornerRadius="28"
+                    HeightRequest="56"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

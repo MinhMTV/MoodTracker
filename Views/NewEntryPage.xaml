@@ -3,139 +3,119 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MoodTracker.ViewModels"
              x:Class="MoodTracker.Views.NewEntryPage"
-             Title="Neuer Eintrag">
+             Title="Neuer Eintrag"
+             Shell.TabBarIsVisible="False">
 
     <ContentPage.BindingContext>
         <vm:NewEntryViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="25">
-            <!-- Date -->
-            <Label Text="{Binding EntryDate, StringFormat='{}{0:dddd, dd. MMMM yyyy}'}"
-                   FontSize="18"
-                   HorizontalOptions="Center"
-                   FontAttributes="Bold"/>
+    <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" 
+                IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+        <VerticalStackLayout Padding="24" Spacing="20">
+            <!-- Date Header -->
+            <Label Text="{Binding EntryDate, StringFormat=' Heute, {0:dd. MMMM}'}"
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                   HorizontalOptions="Center"/>
 
-            <!-- Mood Slider -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Wie fühlst du dich?" FontSize="16" FontAttributes="Bold"/>
-                <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
-                    <Label Grid.Column="0" Text="😢" FontSize="24"/>
-                    <Slider Grid.Column="1" 
-                            Minimum="1" 
-                            Maximum="5" 
-                            Value="{Binding Mood}"
-                            ThumbColor="{Binding MoodColor}"/>
-                    <Label Grid.Column="2" Text="😊" FontSize="24"/>
-                </Grid>
+            <!-- DOMINANT Mood Selector (Daylio Style) -->
+            <VerticalStackLayout Spacing="15" Margin="0,10">
+                <Label Text="Wie geht es dir?"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"/>
+                
+                <!-- Big Mood Display -->
+                <Label Text="{Binding MoodEmoji}"
+                       FontSize="120"
+                       HorizontalOptions="Center"
+                       HeightRequest="140"
+                       VerticalTextAlignment="Center"/>
+                
                 <Label Text="{Binding MoodLabel}"
-                       FontSize="18"
+                       FontSize="22"
                        FontAttributes="Bold"
                        TextColor="{Binding MoodColor}"
                        HorizontalOptions="Center"/>
-            </VerticalStackLayout>
 
-            <!-- Energy Slider -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Energie Level" FontSize="16" FontAttributes="Bold"/>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Label Grid.Column="0" Text="🪫" FontSize="24"/>
-                    <Slider Grid.Column="1" 
-                            Minimum="1" 
-                            Maximum="10" 
-                            Value="{Binding Energy}"
-                            ThumbColor="{StaticResource Success}"/>
-                    <Label Grid.Column="2" Text="🔋" FontSize="24"/>
+                <!-- Radial Selection -->
+                <Grid HorizontalOptions="Center" WidthRequest="320" HeightRequest="60">
+                    <HorizontalStackLayout Spacing="0" HorizontalOptions="Center">
+                        <Button Text="😢" 
+                                Command="{Binding SelectMoodCommand}" CommandParameter="1"
+                                Style="{StaticResource MoodButton}"
+                                BackgroundColor="{Binding Mood, Converter={StaticResource MoodToColor}, ConverterParameter=1}"/>
+                        <Button Text="😕" 
+                                Command="{Binding SelectMoodCommand}" CommandParameter="2"
+                                Style="{StaticResource MoodButton}"
+                                BackgroundColor="{Binding Mood, Converter={StaticResource MoodToColor}, ConverterParameter=2}"/>
+                        <Button Text="😐" 
+                                Command="{Binding SelectMoodCommand}" CommandParameter="3"
+                                Style="{StaticResource MoodButton}"
+                                BackgroundColor="{Binding Mood, Converter={StaticResource MoodToColor}, ConverterParameter=3}"/>
+                        <Button Text="🙂" 
+                                Command="{Binding SelectMoodCommand}" CommandParameter="4"
+                                Style="{StaticResource MoodButton}"
+                                BackgroundColor="{Binding Mood, Converter={StaticResource MoodToColor}, ConverterParameter=4}"/>
+                        <Button Text="😊" 
+                                Command="{Binding SelectMoodCommand}" CommandParameter="5"
+                                Style="{StaticResource MoodButton}"
+                                BackgroundColor="{Binding Mood, Converter={StaticResource MoodToColor}, ConverterParameter=5}"/>
+                    </HorizontalStackLayout>
                 </Grid>
-                <Label Text="{Binding Energy, StringFormat='{}{0}/10'}"
-                       HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Sleep -->
+            <!-- Activities Grid (Daylio style icons) -->
             <VerticalStackLayout Spacing="10">
-                <Label Text="Schlaf (Stunden)" FontSize="16" FontAttributes="Bold"/>
-                <Stepper Value="{Binding Sleep}"
-                         Minimum="0"
-                         Maximum="12"
-                         Increment="1"
-                         HorizontalOptions="Center"/>
-                <Label Text="{Binding Sleep, StringFormat='{}{0}h'}"
-                       HorizontalOptions="Center"
-                       FontSize="18"/>
-            </VerticalStackLayout>
-
-            <!-- Activities -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Aktivitäten" FontSize="16" FontAttributes="Bold"/>
+                <Label Text="Was hast du gemacht?"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray800}, Dark={StaticResource Gray200}}"/>
+                
                 <CollectionView ItemsSource="{Binding AvailableActivities}"
-                                SelectionMode="Multiple"
-                                SelectionChanged="OnActivitySelected">
-                    <CollectionView.ItemsLayout>
-                        <FlexLayoutLayout Wrap="Wrap"/>
-                    </CollectionView.ItemsLayout>
+                                ItemsLayout="Grid, 4"
+                                SelectionMode="None"
+                                HeightRequest="200">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BackgroundColor="{Binding DisplayColor}"
-                                   Padding="12,8"
-                                   Margin="4">
-                                <HorizontalStackLayout Spacing="5">
-                                    <Label Text="{Binding Icon}" FontSize="16"/>
-                                    <Label Text="{Binding Name}" TextColor="White"/>
-                                </HorizontalStackLayout>
-                            </Frame>
+                            <Grid Padding="6">
+                                <Frame BackgroundColor="{Binding BackgroundColor}"
+                                       BorderColor="{Binding BorderColor}"
+                                       Padding="0,12"
+                                       CornerRadius="16"
+                                       HasShadow="False">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NewEntryViewModel}}, Path=ToggleActivityCommand}" CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                                        <Label Text="{Binding Icon}" FontSize="28" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Name}" FontSize="11" HorizontalOptions="Center" TextColor="{Binding TextColor}"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
 
-            <!-- Voice Recording -->
-            <Frame BorderColor="{StaticResource Gray300}" Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Sprachnotiz" FontSize="16" FontAttributes="Bold"/>
-                    <Button Text="{Binding IsRecording, StringFormat='{}{0 ? "⏹ Stoppen" : "🎤 Aufnehmen"}'}"
-                            Clicked="OnToggleRecording"
-                            BackgroundColor="{Binding IsRecording, Converter={StaticResource BoolToColor}}"/>
-                    <Label Text="[Transkription-Placeholder]" 
-                           IsVisible="{Binding HasVoiceRecording}"
-                           FontSize="14"
-                           TextColor="{StaticResource Gray500}"/>
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Note -->
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Notizen" FontSize="16" FontAttributes="Bold"/>
-                <Editor Text="{Binding Note}"
-                        Placeholder="Was beschäftigt dich heute..."
-                        HeightRequest="120"
-                        AutoSize="TextChanges"/>
-            </VerticalStackLayout>
-
-            <!-- AI Summary Button -->
-            <Button Text="🤖 KI-Zusammenfassung generieren"
-                    Clicked="OnGenerateSummary"
-                    IsVisible="{Binding Note, Converter={StaticResource StringNotEmptyConverter}}"
-                    IsEnabled="{Binding IsGeneratingAi, Converter={StaticResource InvertedBoolConverter}}"/>
-
-            <!-- Generated Summary -->
-            <Frame IsVisible="{Binding AiSummary, Converter={StaticResource StringNotEmptyConverter}}"
-                   BackgroundColor="{StaticResource Gray100}"
-                   Padding="15">
-                <Label Text="{Binding AiSummary}" FontSize="14"/>
-            </Frame>
-
-            <!-- Actions -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Button Grid.Column="0" 
-                        Text="Abbrechen" 
-                        Clicked="OnCancel"
-                        Style="{StaticResource SecondaryButton}"/>
-                <Button Grid.Column="1" 
-                        Text="Speichern" 
-                        Clicked="OnSave"
-                        Style="{StaticResource PrimaryButton}"/>
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
-</ContentPage>
+            <!-- Quick Stats Row -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Frame Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" Padding="15" CornerRadius="12">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="⚡" FontSize="24"/>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="ENERGIE" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                            <Slider Value="{Binding Energy}" Minimum="1" Maximum="10" HeightRequest="20"/>
+                            <Label Text="{Binding Energy, StringFormat='{}{0}/10'}" FontSize="14" HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+                
+                <Frame Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" Padding="15" CornerRadius="12">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="😴" FontSize="24"/>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="SCHLAF" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                            <Stepper Value="{Binding Sleep}" Minimum

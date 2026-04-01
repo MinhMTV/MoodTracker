@@ -100,6 +100,12 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
     }
 
     [RelayCommand]
+    private void SelectMood(int mood)
+    {
+        Mood = mood;
+    }
+
+    [RelayCommand]
     private void ToggleActivity(Activity activity)
     {
         if (SelectedActivities.Contains(activity))
