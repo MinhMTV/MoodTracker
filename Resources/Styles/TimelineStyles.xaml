@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Timeline Dot Styles -->
+    <Style x:Key="TimelineDot" TargetType="Frame">
+        <Setter Property="WidthRequest" Value="16"/>
+        <Setter Property="HeightRequest" Value="16"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+    </Style>
+
+    <!-- Activity Badge -->
+    <Style x:Key="ActivityBadge" TargetType="Frame">
+        <Setter Property="Padding" Value="6,3"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HasShadow" Value="False"/>
+    </Style>
+
+    <!-- Timeline Connector Line -->
+    <Style x:Key="TimelineConnector" TargetType="BoxView">
+        <Setter Property="WidthRequest" Value="2"/>
+        <Setter Property="Color" Value="{StaticResource Gray300}"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
+
+</ResourceDictionary>

@@ -40,10 +40,22 @@
     <Color x:Key="Error">#FF5252</Color>
     <Color x:Key="Info">#2196F3</Color>
 
+    <!-- Surface Colors -->
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceDark">#1E1E1E</Color>
+    <Color x:Key="SurfaceVariant">#F5F5F5</Color>
+    <Color x:Key="SurfaceVariantDark">#2D2D2D</Color>
+    
     <!-- Background Colors -->
     <Color x:Key="BackgroundLight">#FFFFFF</Color>
     <Color x:Key="BackgroundDark">#121212</Color>
     <Color x:Key="SurfaceLight">#FFFFFF</Color>
     <Color x:Key="SurfaceDark">#1E1E1E</Color>
+    
+    <!-- Text Colors -->
+    <Color x:Key="TextPrimary">#212121</Color>
+    <Color x:Key="TextPrimaryDark">#FFFFFF</Color>
+    <Color x:Key="TextSecondary">#757575</Color>
+    <Color x:Key="TextSecondaryDark">#9E9E9E</Color>
 
 </ResourceDictionary>

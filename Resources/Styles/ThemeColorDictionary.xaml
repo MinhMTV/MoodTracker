@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    
+    <!-- Theme-aware colors -->
+    <Color x:Key="PageBackground">{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}</Color>
+    <Color x:Key="SurfaceColor">{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}</Color>
+    <Color x:Key="OnSurface">{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}</Color>
+    <Color x:Key="SecondaryText">{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}</Color>
+    <Color x:Key="CardBackground">{AppThemeBinding Light={White}, Dark={StaticResource Gray900}}</Color>
+    
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="White">#FFFFFF</Color>
+
+</ResourceDictionary>
