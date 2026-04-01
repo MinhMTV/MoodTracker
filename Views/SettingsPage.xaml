@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTracker.ViewModels"
+             x:Class="MoodTracker.Views.SettingsPage"
+             Title="Einstellungen">
+
+    <ContentPage.BindingContext>
+        <vm:SettingsViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+            <!-- AI Settings -->
+            <Frame BorderColor="{StaticResource Gray300}" Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🤖 KI Einstellungen" FontSize="18" FontAttributes="Bold"/>
+                    <Label Text="OpenRouter API Key" FontSize="14"/>
+                    <Entry Text="{Binding ApiKey}" 
+                           Placeholder="sk-or-..."
+                           IsPassword="True"/>
+                    <Label Text="Kostenlos über openrouter.ai - Xiaomi MIMO + Kimi" 
+                           FontSize="12" 
+                           TextColor="{StaticResource Gray500}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Backup Settings -->
+            <Frame BorderColor="{StaticResource Gray300}" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="☁️ Backup" FontSize="18" FontAttributes="Bold"/>
+                    <HorizontalStackLayout Spacing="10">
+                        <Switch IsToggled="{Binding AutoBackup}"/>
+                        <Label Text="Automatisches Backup" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label Text="Lokal + iCloud/Google Drive" 
+                           FontSize="12" 
+                           TextColor="{StaticResource Gray500}"/>
+                    
+                    <Button Text="Jetzt sichern"
+                            Clicked="OnBackupNow"
+                            IsEnabled="{Binding IsBackingUp, Converter={StaticResource InvertedBoolConverter}}"
+                            Style="{StaticResource PrimaryButton}"/>
+                    
+                    <Button Text="Exportieren (ZIP)"
+                            Clicked="OnExport"
+                            Style="{StaticResource SecondaryButton}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Info -->
+            <Label Text="MoodTracker v1.0"
+                   FontSize="12"
+                   TextColor="{StaticResource Gray500}"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

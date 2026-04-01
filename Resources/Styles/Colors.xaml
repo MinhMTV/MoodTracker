@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Primary Colors -->
+    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="PrimaryDark">#4534B0</Color>
+    <Color x:Key="PrimaryLight">#DDD6FE</Color>
+    <Color x:Key="Secondary">#FF4081</Color>
+    <Color x:Key="Tertiary">#00C853</Color>
+
+    <!-- Mood Colors -->
+    <Color x:Key="Mood1">#FF5252</Color> <!-- Very Bad -->
+    <Color x:Key="Mood2">#FFAB40</Color> <!-- Bad -->
+    <Color x:Key="Mood3">#FFD740</Color> <!-- Neutral -->
+    <Color x:Key="Mood4">#69F0AE</Color> <!-- Good -->
+    <Color x:Key="Mood5">#00E676</Color> <!-- Very Good -->
+
+    <!-- Chart Colors -->
+    <Color x:Key="ChartBlue">#448AFF</Color>
+    <Color x:Key="ChartGreen">#69F0AE</Color>
+    <Color x:Key="ChartOrange">#FFAB40</Color>
+    <Color x:Key="ChartRed">#FF5252</Color>
+    <Color x:Key="ChartPurple">#E040FB</Color>
+
+    <!-- Grays -->
+    <Color x:Key="Gray100">#F5F5F5</Color>
+    <Color x:Key="Gray200">#EEEEEE</Color>
+    <Color x:Key="Gray300">#E0E0E0</Color>
+    <Color x:Key="Gray400">#BDBDBD</Color>
+    <Color x:Key="Gray500">#9E9E9E</Color>
+    <Color x:Key="Gray600">#757575</Color>
+    <Color x:Key="Gray700">#616161</Color>
+    <Color x:Key="Gray800">#424242</Color>
+    <Color x:Key="Gray900">#212121</Color>
+
+    <!-- Semantic Colors -->
+    <Color x:Key="Success">#4CAF50</Color>
+    <Color x:Key="Warning">#FFC107</Color>
+    <Color x:Key="Error">#FF5252</Color>
+    <Color x:Key="Info">#2196F3</Color>
+
+    <!-- Background Colors -->
+    <Color x:Key="BackgroundLight">#FFFFFF</Color>
+    <Color x:Key="BackgroundDark">#121212</Color>
+    <Color x:Key="SurfaceLight">#FFFFFF</Color>
+    <Color x:Key="SurfaceDark">#1E1E1E</Color>
+
+</ResourceDictionary>

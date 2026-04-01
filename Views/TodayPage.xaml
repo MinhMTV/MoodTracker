@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTracker.ViewModels"
+             x:Class="MoodTracker.Views.TodayPage"
+             Title="Heute">
+
+    <ContentPage.BindingContext>
+        <vm:TodayViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <!-- Header -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Text="◀" Clicked="OnPreviousDay" />
+                <Label Text="{Binding DateLabel}" 
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+                <Button Text="▶" Clicked="OnNextDay" IsEnabled="{Binding CanGoNext}" />
+            </HorizontalStackLayout>
+
+            <!-- No Entry State -->
+            <VerticalStackLayout IsVisible="{Binding HasEntry, Converter={StaticResource InvertedBoolConverter}}"
+                                Spacing="20"
+                                VerticalOptions="CenterAndExpand">
+                <Label Text="Kein Eintrag für diesen Tag"
+                       FontSize="18"
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="Center" />
+                <Button Text="Eintrag erstellen"
+                        Clicked="OnCreateEntry"
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Entry Display -->
+            <VerticalStackLayout IsVisible="{Binding HasEntry}" Spacing="15">
+                <!-- Mood Card -->
+                <Frame BackgroundColor="{Binding TodayEntry.MoodColor}"
+                       CornerRadius="15"
+                       Padding="20">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding TodayEntry.MoodEmoji}"
+                               FontSize="60"
+                               HorizontalOptions="Center" />
+                        <Label Text="{Binding TodayEntry.MoodLabel}"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                        <Label Text="{Binding TodayEntry.CreatedAt, StringFormat='{}{0:HH:mm} Uhr'}"
+                               FontSize="12"
+                               TextColor="White"
+                               Opacity="0.8"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Stats Row -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Frame Grid.Column="0" BorderColor="{StaticResource Gray300}" Padding="15">
+                        <VerticalStackLayout HorizontalOptions="Center">
+                            <Label Text="⚡ Energie" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                            <Label Text="{Binding TodayEntry.Energy, StringFormat='{}{0}/10'}"
+                                   FontSize="24"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Frame>
+                    <Frame Grid.Column="1" BorderColor="{StaticResource Gray300}" Padding="15">
+                        <VerticalStackLayout HorizontalOptions="Center">
+                            <Label Text="😴 Schlaf" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                            <Label Text="{Binding TodayEntry.Sleep, StringFormat='{}{0}h'}"
+                                   FontSize="24"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Activities -->
+                <Label Text="Aktivitäten" FontSize="16" FontAttributes="Bold"/>
+                <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding TodayEntry.Activities}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="{StaticResource Primary}"
+                                   Padding="10,5"
+                                   Margin="5"
+                                   CornerRadius="20">
+                                <Label Text="{Binding .}"
+                                       TextColor="White"
+                                       FontSize="14"/>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+                <!-- AI Summary -->
+                <Frame IsVisible="{Binding TodayEntry.AiSummary, Converter={StaticResource StringNotEmptyConverter}}"
+                       BackgroundColor="{StaticResource Gray100}"
+                       Padding="15">
+                    <VerticalStackLayout>
+                        <Label Text="🤖 KI-Zusammenfassung" FontSize="12" TextColor="{StaticResource Primary}"/>
+                        <Label Text="{Binding TodayEntry.AiSummary}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Note -->
+                <Frame IsVisible="{Binding TodayEntry.Note, Converter={StaticResource StringNotEmptyConverter}}"
+                       BorderColor="{StaticResource Gray300}"
+                       Padding="15">
+                    <VerticalStackLayout>
+                        <Label Text="📝 Notiz" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                        <Label Text="{Binding TodayEntry.Note}"
+                               FontSize="14"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Voice -->
+                <Frame IsVisible="{Binding TodayEntry.LocalVoicePath, Converter={StaticResource StringNotEmptyConverter}}"
+                       BorderColor="{StaticResource Gray300}"
+                       Padding="15">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="🎤" FontSize="24"/>
+                        <Label Text="Sprachnotiz vorhanden"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Button Text="Bearbeiten"
+                        Clicked="OnEditEntry"
+                        Style="{StaticResource SecondaryButton}"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

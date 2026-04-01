@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:MoodTracker.Views"
+       x:Class="MoodTracker.AppShell">
+
+    <TabBar>
+        <Tab Title="Heute" Icon="journal.png">
+            <ShellContent ContentTemplate="{DataTemplate local:TodayPage}" />
+        </Tab>
+        <Tab Title="Timeline" Icon="calendar.png">
+            <ShellContent ContentTemplate="{DataTemplate local:TimelinePage}" />
+        </Tab>
+        <Tab Title="Statistiken" Icon="chart.png">
+            <ShellContent ContentTemplate="{DataTemplate local:StatsPage}" />
+        </Tab>
+        <Tab Title="Wochenbericht" Icon="ai.png">
+            <ShellContent ContentTemplate="{DataTemplate local:WeeklyReportPage}" />
+        </Tab>
+        <Tab Title="Einstellungen" Icon="settings.png">
+            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTracker.ViewModels"
+             x:Class="MoodTracker.Views.TimelinePage"
+             Title="Timeline">
+
+    <ContentPage.BindingContext>
+        <vm:TimelineViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Month Header -->
+        <HorizontalStackLayout Grid.Row="0" 
+                               Padding="15"
+                               HorizontalOptions="Center"
+                               Spacing="15">
+            <Button Text="◀" Clicked="OnPreviousMonth" Style="{StaticResource IconButton}"/>
+            <Label Text="{Binding MonthLabel}" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"/>
+            <Button Text="▶" Clicked="OnNextMonth" Style="{StaticResource IconButton}"/>
+        </HorizontalStackLayout>
+
+        <!-- Entries List -->
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Entries}"
+                        EmptyView="Keine Einträge diesen Monat">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="{StaticResource Gray300}" 
+                           Padding="15" 
+                           Margin="10,5">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEntryTapped" CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <!-- Mood Emoji -->
+                            <Label Grid.Column="0" 
+                                   Text="{Binding MoodEmoji}" 
+                                   FontSize="40"
+                                   VerticalOptions="Center"/>
+                            
+                            <!-- Content -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="{Binding DayName}" 
+                                       FontSize="12" 
+                                       TextColor="{StaticResource Gray500}"/>
+                                <Label Text="{Binding ShortDate}" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding MoodLabel}"
+                                       TextColor="{Binding MoodColor}"
+                                       FontSize="14"/>
+                                <FlexLayout BindableLayout.ItemsSource="{Binding Activities}"
+                                            Wrap="Wrap">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame BackgroundColor="{StaticResource Gray200}"
+                                                   Padding="5,2"
+                                                   Margin="2"
+                                                   CornerRadius="10">
+                                                <Label Text="{Binding .}" FontSize="10"/>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                            </VerticalStackLayout>
+
+                            <!-- Arrow -->
+                            <Label Grid.Column="2" 
+                                   Text="›" 
+                                   FontSize="24"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource Gray400}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

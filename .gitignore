@@ -1,0 +1,24 @@
+# MAUI / .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+
+# IDE
+.idea/
+.vscode/
+*.sln.ide/
+
+# Platform specific
+**/Platforms/Android/**/Resource.designer.cs
+
+# Secrets
+appsettings.*.json
+*.key
+*.pfx
+
+# OS
+.DS_Store
+Thumbs.db
