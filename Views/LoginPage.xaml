@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTracker.ViewModels"
+             x:Class="MoodTracker.Views.LoginPage"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+            <!-- Logo -->
+            <Label Text="🧠"
+                   FontSize="80"
+                   HorizontalOptions="Center"/>
+            
+            <Label Text="MoodTracker"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            
+            <Label Text="Dein persönliches Tagebuch mit KI"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray500}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,30"/>
+
+            <!-- Error -->
+            <Frame IsVisible="{Binding HasError}"
+                   BackgroundColor="#FFEBEE"
+                   BorderColor="#FF5252"
+                   Padding="15">
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF5252"
+                       FontSize="14"/>
+            </Frame>
+
+            <!-- Name (only for registration) -->
+            <Entry IsVisible="{Binding IsRegistering}"
+                   Text="{Binding Name}"
+                   Placeholder="Name"
+                   FontSize="16"/>
+
+            <!-- Email -->
+            <Entry Text="{Binding Email}"
+                   Placeholder="Email"
+                   Keyboard="Email"
+                   FontSize="16"/>
+
+            <!-- Password -->
+            <Entry Text="{Binding Password}"
+                   Placeholder="Passwort"
+                   IsPassword="True"
+                   FontSize="16"/>
+
+            <!-- Loading -->
+            <ActivityIndicator IsVisible="{Binding IsLoading}"
+                               IsRunning="{Binding IsLoading}"/>
+
+            <!-- Login Button -->
+            <Button IsVisible="{Binding IsRegistering, Converter={StaticResource InvertedBoolConverter}}"
+                    Text="Anmelden"
+                    Command="{Binding SignInCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    HeightRequest="50"/>
+
+            <!-- Register Button -->
+            <Button IsVisible="{Binding IsRegistering}"
+                    Text="Konto erstellen"
+                    Command="{Binding SignUpCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    HeightRequest="50"/>
+
+            <!-- OAuth Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="{Binding IsRegistering, Converter={StaticResource InvertedBoolConverter}}">
+                <Button Grid.Column="0"
+                        Text="🔍 Google"
+                        Command="{Binding SignInWithGoogleCommand}"
+                        BackgroundColor="#4285F4"
+                        TextColor="White"
+                        HeightRequest="45"/>
+                
+                <Button Grid.Column="1"
+                        Text="🍎 Apple"
+                        Command="{Binding SignInWithAppleCommand}"
+                        BackgroundColor="#000000"
+                        TextColor="White"
+                        HeightRequest="45"/>
+            </Grid>
+
+            <!-- Toggle Mode -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="{Binding IsRegistering, StringFormat='{}{0 ? \"Bereits Konto?\" : \"Noch kein Konto?\"}'}"
+                       TextColor="{StaticResource Gray500}"/>
+                <Label Text="{Binding IsRegistering, StringFormat='{}{0 ? \"Anmelden\" : \"Registrieren\"}'}"
+                       TextColor="{StaticResource Primary}"
+                       FontAttributes="Bold">
+                    <Label.Gesture

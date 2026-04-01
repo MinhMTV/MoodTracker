@@ -18,6 +18,9 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        // Auth
+        builder.Services.AddSingleton<IAuthService, SupabaseAuthService>();
+        
         // Services
         builder.Services.AddSingleton<ISqliteDatabaseService, SqliteDatabaseService>();
         builder.Services.AddSingleton<ICloudBackupService, CloudBackupService>();
@@ -26,6 +29,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IBackupSchedulerService, BackupSchedulerService>();
 
         // ViewModels
+        builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<TodayViewModel>();
         builder.Services.AddTransient<TimelineViewModel>();
         builder.Services.AddTransient<StatsViewModel>();
@@ -34,6 +38,7 @@ public static class MauiProgram
         builder.Services.AddTransient<NewEntryViewModel>();
 
         // Views
+        builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<TodayPage>();
         builder.Services.AddTransient<TimelinePage>();
         builder.Services.AddTransient<StatsPage>();

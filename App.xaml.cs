@@ -1,8 +1,10 @@
+using MoodTracker.Services;
+
 namespace MoodTracker;
 
 public partial class App : Application
 {
-    public App()
+    public App(IAuthService authService)
     {
         InitializeComponent();
     }
