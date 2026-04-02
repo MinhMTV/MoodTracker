@@ -27,6 +27,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAiService, OpenRouterAiService>();
         builder.Services.AddSingleton<IVoiceRecordingService, VoiceRecordingService>();
         builder.Services.AddSingleton<IBackupSchedulerService, BackupSchedulerService>();
+        builder.Services.AddSingleton<IHapticService, HapticService>();
 
         // ViewModels
         builder.Services.AddTransient<LoginViewModel>();
