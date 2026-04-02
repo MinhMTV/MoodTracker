@@ -13,6 +13,7 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
     private readonly ISqliteDatabaseService _database;
     private readonly IAiService _aiService;
     private readonly IVoiceRecordingService _voiceService;
+    private readonly IHapticService _haptics;
 
     [ObservableProperty]
     private DateTime _entryDate = DateTime.Now;
@@ -57,11 +58,12 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
 
     private int _entryId = 0;
 
-    public NewEntryViewModel(ISqliteDatabaseService database, IAiService aiService, IVoiceRecordingService voiceService)
+    public NewEntryViewModel(ISqliteDatabaseService database, IAiService aiService, IVoiceRecordingService voiceService, IHapticService haptics)
     {
         _database = database;
         _aiService = aiService;
         _voiceService = voiceService;
+        _haptics = haptics;
     }
 
     public async Task InitializeAsync()
@@ -103,6 +105,7 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
     private void SelectMood(int mood)
     {
         Mood = mood;
+        _haptics?.SelectionChanged();
     }
 
     [RelayCommand]
@@ -112,6 +115,8 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
             SelectedActivities.Remove(activity);
         else
             SelectedActivities.Add(activity);
+        
+        _haptics?.LightImpact();
     }
 
     [RelayCommand]
@@ -152,6 +157,8 @@ public partial class NewEntryViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     private async Task SaveAsync()
     {
+        _haptics?.Success();
+        
         var entry = new Entry
         {
             Id = _entryId,

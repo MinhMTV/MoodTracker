@@ -4,7 +4,8 @@
              xmlns:vm="clr-namespace:MoodTracker.ViewModels"
              xmlns:charts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="MoodTracker.Views.StatsPage"
-             Title="Statistiken">
+             Title="Statistiken"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}">
 
     <ContentPage.BindingContext>
         <vm:StatsViewModel />
@@ -12,6 +13,130 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
-            <!-- Stats Cards -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
-                <Frame Grid.Column="0" BackgroundColor="{StaticResource Primary}" Padding="20">
+            <!-- Summary Cards -->
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <!-- Total Entries -->
+                <Frame Grid.Column="0" 
+                       BackgroundColor="{StaticResource Primary}" 
+                       Padding="15"
+                       CornerRadius="16">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding EntriesCount}" 
+                               FontSize="32" 
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                        <Label Text="EINTRÄGE" 
+                               FontSize="10"
+                               TextColor="White"
+                               Opacity="0.9"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Avg Mood -->
+                <Frame Grid.Column="1" 
+                       BackgroundColor="{Binding AverageMoodColor}" 
+                       Padding="15"
+                       CornerRadius="16">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding AverageMood, StringFormat='{}{0:F1}'}" 
+                               FontSize="32" 
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Ø STIMMUNG" 
+                               FontSize="10"
+                               TextColor="White"
+                               Opacity="0.9"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Streak -->
+                <Frame Grid.Column="2" 
+                       BackgroundColor="{StaticResource Tertiary}" 
+                       Padding="15"
+                       CornerRadius="16">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding StreakDays}" 
+                               FontSize="32" 
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                        <Label Text="TAGE STREAK" 
+                               FontSize="10"
+                               TextColor="White"
+                               Opacity="0.9"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Mood Chart -->
+            <Frame BackgroundColor="{AppThemeBinding Light={White}, Dark={StaticResource Gray800}}"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray700}}"
+                   Padding="20"
+                   CornerRadius="16">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Stimmungsverlauf" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+                    <charts:ChartView Chart="{Binding MoodChart}" HeightRequest="200"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Activity Chart -->
+            <Frame IsVisible="{Binding HasActivityData}"
+                   BackgroundColor="{AppThemeBinding Light={White}, Dark={StaticResource Gray800}}"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray700}}"
+                   Padding="20"
+                   CornerRadius="16">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Aktivitäten" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+                    <charts:ChartView Chart="{Binding ActivityChart}" HeightRequest="200"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Top Activities List -->
+            <Frame BackgroundColor="{AppThemeBinding Light={White}, Dark={StaticResource Gray800}}"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray700}}"
+                   Padding="20"
+                   CornerRadius="16">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Häufigste Aktivitäten" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+                    
+                    <CollectionView ItemsSource="{Binding ActivityStats}" HeightRequest="200">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto,*,Auto" Padding="10,5">
+                                    <Label Grid.Column="0" Text="{Binding Icon}" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="{Binding Name}" 
+                                           VerticalOptions="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+                                    <HorizontalStackLayout Grid.Column="2" Spacing="5">
+                                        <ProgressBar Progress="{Binding Percentage}" 
+                                                     WidthRequest="80"
+                                                     ProgressColor="{StaticResource Primary}"/>
+                                        <Label Text="{Binding Count}" 
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray500}"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Time Filter -->
+            <Grid ColumnDefinitions="*,*,*">
+                <Button Grid.Column="0" Text="7 Tage" Command="{Binding SetPeriodCommand}" CommandParameter="7"/>
+                <Button Grid.Column="1" Text="30 Tage" Command="{Binding SetPeriodCommand}" CommandParameter="30" Style="{StaticResource PrimaryButton}""/>
